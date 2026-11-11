@@ -20,6 +20,7 @@ Lightweight Gutenberg block for WordPress to build **vertical** (one-sided or al
 - **Date position**: opposite the card or above it
 - **Scroll animation**, automatically disabled for users who prefer reduced motion
 - **Theme-proof**: the timeline line does not rely on `::before`, so aggressive theme CSS can't hide it
+- **Automatic updates from GitHub**: new releases show up in **Dashboard → Updates** like any other plugin, with one-click and auto-update support
 - **Translation-ready**: English source strings, French translation included (`fr_FR`), `.pot` template provided
 
 ## Requirements
@@ -33,6 +34,19 @@ Lightweight Gutenberg block for WordPress to build **vertical** (one-sided or al
 2. In WordPress, go to **Plugins → Add New → Upload Plugin**, choose the ZIP and click **Install Now**, then **Activate**.
 
 You can also copy the folder directly into `wp-content/plugins/`.
+
+## Updates
+
+The plugin checks this repository's [releases](https://github.com/cedlelensois-lang/WP-Chrono-timeline-block/releases) twice a day (results are cached for 6 hours) and offers the update in WordPress like any plugin from WordPress.org. You can also click **Check for updates** under the plugin name on the Plugins screen to check immediately, and enable **auto-updates** there.
+
+**Publishing a new version:**
+
+1. Bump `Version:` and `CTB_VERSION` in `chrono-timeline-block.php`.
+2. Commit and push.
+3. Create a GitHub release whose tag is the version number (e.g. `1.4.1` or `v1.4.1`).
+4. Recommended: attach a `.zip` of the plugin folder to the release. If none is attached, the source code archive is used and the folder is renamed automatically during the update.
+
+Pre-releases and drafts are ignored. The `Update URI` header guarantees WordPress.org is never queried for this plugin.
 
 ## Usage
 
@@ -67,6 +81,10 @@ languages/                  .pot template and French translation (.po, .mo, .jso
 ```
 
 ## Changelog
+
+### 1.4.0
+- Automatic updates from GitHub releases (with "Check for updates" link, release notes in "View details", auto-update support)
+
 
 ### 1.3.0
 - New tabs layout (one event at a time, with clickable date bar)
