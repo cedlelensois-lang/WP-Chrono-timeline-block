@@ -13,7 +13,7 @@
 		if ( ! hasIO ) {
 			return;
 		}
-		var items = document.querySelectorAll( '.ctb-timeline[data-ctb-animate] .ctb-item' );
+		var items = document.querySelectorAll( '.ctb-timeline[data-ctb-animate]:not(.ctb-layout-tabs) .ctb-item' );
 		if ( ! items.length ) {
 			return;
 		}
@@ -31,6 +31,103 @@
 		items.forEach( function ( item ) {
 			observer.observe( item );
 		} );
+	}
+
+	/* ---------- Onglets ---------- */
+
+	var tabsCount = 0;
+
+	function buildTabs( timeline ) {
+		var list = timeline.querySelector( '.ctb-timeline__items' );
+		if ( ! list || timeline.classList.contains( 'ctb-tabs-ready' ) ) {
+			return;
+		}
+		var items = Array.prototype.filter.call( list.children, function ( n ) {
+			return n.classList.contains( 'ctb-item' );
+		} );
+		if ( ! items.length ) {
+			return;
+		}
+
+		var uid = 'ctb-tabs-' + ( ++tabsCount );
+		var nav = document.createElement( 'div' );
+		nav.className = 'ctb-tabs__nav';
+		nav.setAttribute( 'role', 'tablist' );
+		var tabs = [];
+
+		function select( index, focus ) {
+			tabs.forEach( function ( tab, i ) {
+				var on = i === index;
+				tab.classList.toggle( 'is-active', on );
+				tab.setAttribute( 'aria-selected', on ? 'true' : 'false' );
+				tab.tabIndex = on ? 0 : -1;
+				items[ i ].classList.toggle( 'is-active', on );
+			} );
+			if ( focus ) {
+				tabs[ index ].focus();
+			}
+			if ( tabs[ index ].scrollIntoView && nav.scrollWidth > nav.clientWidth ) {
+				nav.scrollLeft = tabs[ index ].offsetLeft - ( nav.clientWidth - tabs[ index ].offsetWidth ) / 2;
+			}
+		}
+
+		items.forEach( function ( item, i ) {
+			var dateEl = item.querySelector( '.ctb-item__date' );
+			var titleEl = item.querySelector( '.ctb-item__title' );
+			var label = ( dateEl && dateEl.textContent.trim() ) || ( titleEl && titleEl.textContent.trim() ) || String( i + 1 );
+
+			var tab = document.createElement( 'button' );
+			tab.type = 'button';
+			tab.className = 'ctb-tabs__tab';
+			tab.id = uid + '-tab-' + i;
+			tab.setAttribute( 'role', 'tab' );
+			tab.setAttribute( 'aria-controls', uid + '-panel-' + i );
+			var accent = item.style.getPropertyValue( '--ctb-accent' );
+			if ( accent ) {
+				tab.style.setProperty( '--ctb-accent', accent );
+			}
+			var dot = document.createElement( 'span' );
+			dot.className = 'ctb-tabs__dot';
+			dot.setAttribute( 'aria-hidden', 'true' );
+			var text = document.createElement( 'span' );
+			text.className = 'ctb-tabs__label';
+			text.textContent = label;
+			tab.appendChild( dot );
+			tab.appendChild( text );
+			tab.addEventListener( 'click', function () { select( i ); } );
+			nav.appendChild( tab );
+			tabs.push( tab );
+
+			item.id = item.id || uid + '-panel-' + i;
+			tab.setAttribute( 'aria-controls', item.id );
+			item.setAttribute( 'role', 'tabpanel' );
+			item.setAttribute( 'aria-labelledby', tab.id );
+			item.tabIndex = 0;
+		} );
+
+		nav.addEventListener( 'keydown', function ( e ) {
+			var current = tabs.indexOf( document.activeElement );
+			if ( current === -1 ) {
+				return;
+			}
+			var next = null;
+			if ( e.key === 'ArrowRight' || e.key === 'ArrowDown' ) next = ( current + 1 ) % tabs.length;
+			else if ( e.key === 'ArrowLeft' || e.key === 'ArrowUp' ) next = ( current - 1 + tabs.length ) % tabs.length;
+			else if ( e.key === 'Home' ) next = 0;
+			else if ( e.key === 'End' ) next = tabs.length - 1;
+			if ( next !== null ) {
+				e.preventDefault();
+				select( next, true );
+			}
+		} );
+
+		timeline.insertBefore( nav, list );
+		timeline.classList.add( 'ctb-tabs-ready' );
+		select( 0 );
+	}
+
+	function initTabs() {
+		document.querySelectorAll( '.ctb-timeline.ctb-layout-tabs' ).forEach( buildTabs );
 	}
 
 	/* ---------- Lightbox ---------- */
@@ -160,6 +257,7 @@
 	}
 
 	function init() {
+		initTabs();
 		initAnimation();
 		initLightbox();
 	}

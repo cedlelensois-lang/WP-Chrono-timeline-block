@@ -21,6 +21,8 @@
 	var useDispatch = wp.data.useDispatch;
 	var useSelect = wp.data.useSelect;
 	var useEffect = wp.element.useEffect;
+	var useState = wp.element.useState;
+	var registerBlockVariation = wp.blocks.registerBlockVariation;
 
 	var TD = 'chrono-timeline-block';
 
@@ -30,6 +32,21 @@
 		'businessperson', 'welcome-learn-more', 'book', 'portfolio', 'hammer', 'chart-line',
 		'megaphone', 'camera', 'format-quote', 'airplane', 'car', 'pets'
 	];
+
+	// Thèmes : [slug, libellé, aperçu (ligne, point, carte)]
+	var THEMES = [
+		[ 'default', __( 'Default', TD ), [ '#d9dde3', '#3858e9', '#ffffff' ] ],
+		[ 'minimal', __( 'Minimal', TD ), [ '#cfd4da', '#1e1e1e', 'transparent' ] ],
+		[ 'classic', __( 'Classic', TD ), [ '#c3c8cf', '#2f6f4f', '#ffffff' ] ],
+		[ 'modern', __( 'Modern', TD ), [ '#e3defc', '#7c4dff', '#f4f0ff' ] ],
+		[ 'elegant', __( 'Elegant', TD ), [ '#dccbb0', '#b8935a', '#fffdf9' ] ],
+		[ 'dark', __( 'Dark', TD ), [ '#3a4052', '#7c9cff', '#1e2230' ] ],
+		[ 'bold', __( 'Bold', TD ), [ '#ffd2c2', '#ff5a36', '#ff5a36' ] ]
+	];
+
+	function plainText( v ) {
+		return String( v || '' ).replace( /<[^>]*>/g, '' ).replace( /&nbsp;/g, ' ' ).trim();
+	}
 
 	/* ---------- Helpers ---------- */
 
@@ -66,6 +83,13 @@
 		}
 		if ( a.shadow === false ) {
 			cls.push( 'ctb-no-shadow' );
+		}
+		// Classes ajoutées uniquement si l'option est active : markup v1.2 inchangé.
+		if ( a.theme && a.theme !== 'default' ) {
+			cls.push( 'ctb-theme-' + a.theme );
+		}
+		if ( a.verticalOnMobile && ( a.layout === 'horizontal' || a.layout === 'tabs' ) ) {
+			cls.push( 'ctb-mobile-vertical' );
 		}
 		return cls.join( ' ' );
 	}
@@ -132,6 +156,37 @@
 		return el( 'figure', { className: 'ctb-item__media' }, img );
 	}
 
+	function ThemePicker( props ) {
+		return el(
+			'div',
+			{ className: 'ctb-theme-grid' },
+			THEMES.map( function ( t ) {
+				var active = ( props.value || 'default' ) === t[ 0 ];
+				return el(
+					'button',
+					{
+						key: t[ 0 ],
+						type: 'button',
+						className: 'ctb-theme-choice' + ( active ? ' is-active' : '' ),
+						'aria-pressed': active,
+						onClick: function () { props.onChange( t[ 0 ] ); }
+					},
+					el(
+						'span',
+						{ className: 'ctb-theme-choice__preview', 'aria-hidden': 'true' },
+						el( 'span', { className: 'ctb-theme-choice__line', style: { background: t[ 2 ][ 0 ] } } ),
+						el( 'span', { className: 'ctb-theme-choice__dot', style: { background: t[ 2 ][ 1 ] } } ),
+						el( 'span', {
+							className: 'ctb-theme-choice__card',
+							style: { background: t[ 2 ][ 2 ], borderColor: t[ 2 ][ 1 ] }
+						} )
+					),
+					el( 'span', { className: 'ctb-theme-choice__label' }, t[ 1 ] )
+				);
+			} )
+		);
+	}
+
 	/* ---------- Bloc parent : Timeline ---------- */
 
 	var TEMPLATE = [
@@ -166,12 +221,80 @@
 				insertBlock( createBlock( 'ctb/timeline-item' ), undefined, props.clientId );
 			}
 
+			/* --- Onglets : un événement visible à la fois dans l'éditeur --- */
+			var isTabs = a.layout === 'tabs';
+			var children = useSelect( function ( select ) {
+				return select( 'core/block-editor' ).getBlocks( props.clientId );
+			}, [ props.clientId ] );
+			var selectedIndex = useSelect( function ( select ) {
+				var store = select( 'core/block-editor' );
+				var sel = store.getSelectedBlockClientId();
+				if ( ! sel ) {
+					return -1;
+				}
+				var chain = store.getBlockParents( sel ).concat( [ sel ] );
+				var order = store.getBlockOrder( props.clientId );
+				for ( var i = 0; i < chain.length; i++ ) {
+					var idx = order.indexOf( chain[ i ] );
+					if ( idx !== -1 ) {
+						return idx;
+					}
+				}
+				return -1;
+			}, [ props.clientId ] );
+			var tabState = useState( 0 );
+			var activeTab = Math.min( tabState[ 0 ], Math.max( 0, children.length - 1 ) );
+			var setActiveTab = tabState[ 1 ];
+
+			useEffect( function () {
+				if ( selectedIndex >= 0 ) {
+					setActiveTab( selectedIndex );
+				}
+			}, [ selectedIndex ] );
+
+			var tabsNav = null;
+			var tabsStyle = null;
+			if ( isTabs ) {
+				tabsNav = el(
+					'div',
+					{ className: 'ctb-tabs__nav', role: 'tablist' },
+					children.map( function ( b, i ) {
+						var label = plainText( b.attributes.date ) || plainText( b.attributes.title ) || String( i + 1 );
+						return el(
+							'button',
+							{
+								key: b.clientId,
+								type: 'button',
+								role: 'tab',
+								'aria-selected': i === activeTab,
+								className: 'ctb-tabs__tab' + ( i === activeTab ? ' is-active' : '' ),
+								style: b.attributes.accentColor ? { '--ctb-accent': b.attributes.accentColor } : undefined,
+								onClick: function () { setActiveTab( i ); }
+							},
+							el( 'span', { className: 'ctb-tabs__dot', 'aria-hidden': 'true' } ),
+							el( 'span', { className: 'ctb-tabs__label' }, label )
+						);
+					} )
+				);
+				tabsStyle = el(
+					'style',
+					null,
+					'#block-' + props.clientId + ' > .ctb-timeline__items > .ctb-item:not(:nth-child(' + ( activeTab + 1 ) + ')){display:none!important}'
+				);
+			}
+
 			return el(
 				Fragment,
 				null,
 				el(
 					InspectorControls,
 					null,
+					el(
+						c.PanelBody,
+						{ title: __( 'Theme', TD ), initialOpen: true },
+						el( ThemePicker, { value: a.theme, onChange: function ( v ) { set( { theme: v } ); } } ),
+						el( 'p', { className: 'ctb-help' }, __( 'Themes work with every layout. Colors set below override the theme.', TD ) )
+					),
 					el(
 						c.PanelBody,
 						{ title: __( 'Layout', TD ), initialOpen: true },
@@ -182,11 +305,21 @@
 								{ label: __( 'Vertical — alternating (both sides)', TD ), value: 'both' },
 								{ label: __( 'Vertical — line on the left', TD ), value: 'left' },
 								{ label: __( 'Vertical — line on the right', TD ), value: 'right' },
-								{ label: __( 'Horizontal (scrolling)', TD ), value: 'horizontal' }
+								{ label: __( 'Horizontal (scrolling)', TD ), value: 'horizontal' },
+								{ label: __( 'Tabs (one event at a time)', TD ), value: 'tabs' }
 							],
 							onChange: function ( v ) { set( { layout: v } ); },
 							__nextHasNoMarginBottom: true
 						} ),
+						a.layout === 'horizontal' || a.layout === 'tabs'
+							? el( 'div', { style: { marginTop: 16 } }, el( c.ToggleControl, {
+								label: __( 'Switch to vertical on mobile', TD ),
+								help: __( 'Dual orientation: horizontal on large screens, vertical on phones.', TD ),
+								checked: !! a.verticalOnMobile,
+								onChange: function ( v ) { set( { verticalOnMobile: v } ); },
+								__nextHasNoMarginBottom: true
+							} ) )
+							: null,
 						el( 'div', { style: { height: 16 } } ),
 						el( c.SelectControl, {
 							label: __( 'Date position', TD ),
@@ -259,6 +392,8 @@
 				el(
 					'div',
 					blockProps,
+					tabsStyle,
+					tabsNav,
 					el( 'div', innerProps ),
 					el(
 						'div',
@@ -507,4 +642,26 @@
 			);
 		}
 	} );
+	/* ---------- Modèles (variations dans l'outil d'insertion) ---------- */
+
+	if ( registerBlockVariation ) {
+		[
+			[ 'elegant-alternating', __( 'Timeline – Elegant, alternating', TD ), { layout: 'both', theme: 'elegant' } ],
+			[ 'modern-left', __( 'Timeline – Modern, one side', TD ), { layout: 'left', theme: 'modern' } ],
+			[ 'classic-right', __( 'Timeline – Classic, line on the right', TD ), { layout: 'right', theme: 'classic' } ],
+			[ 'minimal-alternating', __( 'Timeline – Minimal, alternating', TD ), { layout: 'both', theme: 'minimal', shadow: false } ],
+			[ 'dark-horizontal', __( 'Timeline – Dark, horizontal / vertical on mobile', TD ), { layout: 'horizontal', theme: 'dark', verticalOnMobile: true } ],
+			[ 'bold-tabs', __( 'Timeline – Bold, tabs', TD ), { layout: 'tabs', theme: 'bold' } ],
+			[ 'tabs-default', __( 'Timeline – Tabs', TD ), { layout: 'tabs' } ]
+		].forEach( function ( v ) {
+			registerBlockVariation( 'ctb/timeline', {
+				name: v[ 0 ],
+				title: v[ 1 ],
+				description: __( 'Preconfigured timeline template.', TD ),
+				icon: 'backup',
+				attributes: v[ 2 ],
+				scope: [ 'inserter' ]
+			} );
+		} );
+	}
 } )( window.wp );

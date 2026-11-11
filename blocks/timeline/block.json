@@ -5,12 +5,13 @@
 	"title": "Timeline",
 	"category": "design",
 	"icon": "backup",
-	"description": "Vertical (one side or alternating) or horizontal timeline.",
+	"description": "Vertical (one side or alternating), horizontal or tabbed timeline, with themes.",
 	"keywords": [
 		"timeline",
 		"history",
 		"chronology",
-		"milestones"
+		"milestones",
+		"tabs"
 	],
 	"textdomain": "chrono-timeline-block",
 	"attributes": {
@@ -59,6 +60,14 @@
 		"shadow": {
 			"type": "boolean",
 			"default": true
+		},
+		"theme": {
+			"type": "string",
+			"default": "default"
+		},
+		"verticalOnMobile": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"supports": {

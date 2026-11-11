@@ -38,3 +38,84 @@
 .ctb-icon-grid .components-button {
 	justify-content: center;
 }
+
+/* Sélecteur de thème */
+.ctb-theme-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 8px;
+}
+
+.ctb-theme-choice {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	padding: 6px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	background: #fff;
+	cursor: pointer;
+	text-align: left;
+}
+
+.ctb-theme-choice:hover {
+	border-color: #949494;
+}
+
+.ctb-theme-choice.is-active {
+	border-color: var(--wp-admin-theme-color, #3858e9);
+	box-shadow: 0 0 0 1px var(--wp-admin-theme-color, #3858e9);
+}
+
+.ctb-theme-choice__preview {
+	position: relative;
+	display: block;
+	height: 44px;
+	border-radius: 2px;
+	background: #f6f7f7;
+	overflow: hidden;
+}
+
+.ctb-theme-choice__line {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 18px;
+	width: 3px;
+}
+
+.ctb-theme-choice__dot {
+	position: absolute;
+	top: 15px;
+	left: 13px;
+	width: 13px;
+	height: 13px;
+	border-radius: 50%;
+}
+
+.ctb-theme-choice__card {
+	position: absolute;
+	top: 9px;
+	left: 34px;
+	right: 8px;
+	height: 26px;
+	border-radius: 3px;
+	border-top: 2px solid;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.ctb-theme-choice__label {
+	font-size: 12px;
+	font-weight: 500;
+}
+
+.ctb-help {
+	margin: 12px 0 0;
+	color: #757575;
+	font-size: 12px;
+}
+
+/* Onglets dans l'éditeur : pas d'animation d'apparition */
+.ctb-layout-tabs .ctb-item {
+	animation: none !important;
+}

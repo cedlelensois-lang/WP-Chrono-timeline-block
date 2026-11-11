@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name:       Chrono Timeline Block
- * Description:       Gutenberg block to build vertical timelines — one-sided or alternating — or horizontal ones, with icons, images, colors, a lightbox and scroll animation.
- * Version:           1.2.0
+ * Description:       Gutenberg block to build vertical (one-sided or alternating), horizontal or tabbed timelines, with themes, templates, icons, images, a lightbox and scroll animation.
+ * Version:           1.3.0
  * Requires at least: 6.3
  * Requires PHP:      7.4
  * Author:            Cédric
@@ -14,7 +14,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'CTB_VERSION', '1.2.0' );
+define( 'CTB_VERSION', '1.3.0' );
 
 add_action( 'init', 'ctb_register_blocks' );
 

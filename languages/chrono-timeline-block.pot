@@ -1,5 +1,6 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: Chrono Timeline Block 1.3.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "X-Domain: chrono-timeline-block\n"
 
@@ -30,6 +31,9 @@ msgstr ""
 msgid "Animate on scroll"
 msgstr ""
 
+msgid "Bold"
+msgstr ""
+
 msgid "Card background"
 msgstr ""
 
@@ -45,10 +49,16 @@ msgstr ""
 msgid "Choose an image"
 msgstr ""
 
+msgid "Classic"
+msgstr ""
+
 msgid "Colors"
 msgstr ""
 
 msgid "Customize colors and layout in the sidebar."
+msgstr ""
+
+msgid "Dark"
 msgstr ""
 
 msgid "Date position"
@@ -58,6 +68,9 @@ msgid "Dates"
 msgstr ""
 
 msgid "Date…"
+msgstr ""
+
+msgid "Default"
 msgstr ""
 
 msgid "Describe the first step of your story here."
@@ -79,6 +92,12 @@ msgid "Dot size (px)"
 msgstr ""
 
 msgid "Dots / icons"
+msgstr ""
+
+msgid "Dual orientation: horizontal on large screens, vertical on phones."
+msgstr ""
+
+msgid "Elegant"
 msgstr ""
 
 msgid "Enlarge to full size (lightbox)"
@@ -117,6 +136,12 @@ msgstr ""
 msgid "Marker type"
 msgstr ""
 
+msgid "Minimal"
+msgstr ""
+
+msgid "Modern"
+msgstr ""
+
 msgid "On image click"
 msgstr ""
 
@@ -127,6 +152,9 @@ msgid "Open the image in a new tab"
 msgstr ""
 
 msgid "Opposite the card"
+msgstr ""
+
+msgid "Preconfigured timeline template."
 msgstr ""
 
 msgid "Remove"
@@ -144,10 +172,43 @@ msgstr ""
 msgid "Space between events (px)"
 msgstr ""
 
+msgid "Switch to vertical on mobile"
+msgstr ""
+
+msgid "Tabs (one event at a time)"
+msgstr ""
+
 msgid "Text / number / emoji"
 msgstr ""
 
 msgid "The beginning"
+msgstr ""
+
+msgid "Theme"
+msgstr ""
+
+msgid "Themes work with every layout. Colors set below override the theme."
+msgstr ""
+
+msgid "Timeline – Bold, tabs"
+msgstr ""
+
+msgid "Timeline – Classic, line on the right"
+msgstr ""
+
+msgid "Timeline – Dark, horizontal / vertical on mobile"
+msgstr ""
+
+msgid "Timeline – Elegant, alternating"
+msgstr ""
+
+msgid "Timeline – Minimal, alternating"
+msgstr ""
+
+msgid "Timeline – Modern, one side"
+msgstr ""
+
+msgid "Timeline – Tabs"
 msgstr ""
 
 msgid "Titles"
@@ -165,12 +226,26 @@ msgstr ""
 msgid "Vertical — line on the right"
 msgstr ""
 
-msgctxt "block title"
-msgid "Timeline"
+msgid "Chrono Timeline Block"
 msgstr ""
 
-msgctxt "block description"
-msgid "Vertical (one side or alternating) or horizontal timeline."
+msgid "Close"
+msgstr ""
+
+msgid "Enlarged image"
+msgstr ""
+
+msgid "Gutenberg block to build vertical (one-sided or alternating), horizontal or tabbed timelines, with themes, templates, icons, images, a lightbox and scroll animation."
+msgstr ""
+
+msgid "Next image"
+msgstr ""
+
+msgid "Previous image"
+msgstr ""
+
+msgctxt "block title"
+msgid "Timeline"
 msgstr ""
 
 msgctxt "block title"
@@ -197,20 +272,10 @@ msgctxt "block keyword"
 msgid "milestones"
 msgstr ""
 
-msgid "Gutenberg block to build vertical timelines — one-sided or alternating — or horizontal ones, with icons, images, colors, a lightbox and scroll animation."
+msgctxt "block description"
+msgid "Vertical (one side or alternating), horizontal or tabbed timeline, with themes."
 msgstr ""
 
-msgid "Enlarged image"
-msgstr ""
-
-msgid "Close"
-msgstr ""
-
-msgid "Previous image"
-msgstr ""
-
-msgid "Next image"
-msgstr ""
-
-msgid "Chrono Timeline Block"
+msgctxt "block keyword"
+msgid "tabs"
 msgstr ""

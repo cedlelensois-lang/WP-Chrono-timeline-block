@@ -1,13 +1,18 @@
 # WP-Chrono Timeline Block
 
-Lightweight Gutenberg block for WordPress to build **vertical** (one-sided or alternating) and **horizontal** timelines, with icons, images, lightbox, custom colors and scroll animation. No build step, translation-ready (English / French).
+Lightweight Gutenberg block for WordPress to build **vertical** (one-sided or alternating), **horizontal** and **tabbed** timelines, with 7 themes, ready-made templates, icons, images, lightbox, custom colors and scroll animation. No build step, translation-ready (English / French).
 
 ![Timeline example](.github/screenshot-layouts.png)
 
+![Themes and tabs layout](.github/screenshot-themes.png)
+
 ## Features
 
-- **4 layouts**: vertical alternating, vertical with the line on the left, vertical with the line on the right, horizontal (scrollable, swipe-friendly)
+- **5 layouts**: vertical alternating, vertical with the line on the left, vertical with the line on the right, horizontal (scrollable, swipe-friendly) and **tabs** (clickable date bar showing one event at a time, keyboard accessible)
 - **Responsive**: the alternating layout automatically switches to one side on mobile
+- **Dual orientation**: horizontal and tabbed timelines can switch to a vertical layout on phones
+- **7 themes**: Default, Minimal, Classic, Modern, Elegant, Dark and Bold — each works with every layout, and your own colors override the theme
+- **Templates**: preconfigured layout + theme combinations available straight from the block inserter (e.g. "Timeline – Elegant, alternating", "Timeline – Bold, tabs")
 - **Events** with date, title, rich text and optional image
 - **Markers**: dot, Dashicon (24 icons) or short text (number, letter, emoji), with a per-event accent color
 - **Image click action**: none, full-size lightbox (with previous/next navigation, keyboard and screen-reader support) or open in a new tab
@@ -33,7 +38,8 @@ You can also copy the folder directly into `wp-content/plugins/`.
 
 1. In the block editor, type `/timeline` (or `/frise`) and insert the **Timeline** block.
 2. Select an event to edit its date, title and text, add an image from the toolbar, and pick a marker and accent color in the sidebar.
-3. Select the parent **Timeline** block (use the "Select parent" button or the List View) to change the layout, colors and dimensions.
+3. Select the parent **Timeline** block (use the "Select parent" button or the List View) to pick a theme and change the layout, colors and dimensions.
+   Tip: search for "Timeline –" in the inserter to start from a ready-made template.
 4. Click **Add an event** under the timeline to add more steps.
 
 ## Translations
@@ -61,6 +67,13 @@ languages/                  .pot template and French translation (.po, .mo, .jso
 ```
 
 ## Changelog
+
+### 1.3.0
+- New tabs layout (one event at a time, with clickable date bar)
+- Dual orientation option: horizontal / tabs on desktop, vertical on mobile
+- 7 themes (Default, Minimal, Classic, Modern, Elegant, Dark, Bold) with a visual picker
+- 7 ready-made templates in the block inserter
+
 
 ### 1.2.0
 - Bilingual interface: English source strings with bundled French translation
