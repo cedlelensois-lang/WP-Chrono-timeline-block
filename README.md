@@ -83,6 +83,10 @@ languages/                  .pot template and French translation (.po, .mo, .jso
 
 ## Changelog
 
+### 1.4.2
+- Releases are now built and published automatically by a GitHub Action when a version tag is pushed (plugin zip attached)
+
+
 ### 1.4.1
 - Plugin renamed to "WP Chrono timeline block" in the WordPress admin
 

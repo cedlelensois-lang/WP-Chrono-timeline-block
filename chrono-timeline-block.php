@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       WP Chrono timeline block
  * Description:       Gutenberg block to build vertical (one-sided or alternating), horizontal or tabbed timelines, with themes, templates, icons, images, a lightbox and scroll animation.
- * Version:           1.4.1
+ * Version:           1.4.2
  * Requires at least: 6.3
  * Requires PHP:      7.4
  * Author:            Cédric
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'CTB_VERSION', '1.4.1' );
+define( 'CTB_VERSION', '1.4.2' );
 
 // Mises à jour depuis les releases GitHub.
 require_once __DIR__ . '/includes/class-ctb-updater.php';
