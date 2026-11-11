@@ -130,7 +130,7 @@ class CTB_Updater {
 		$version = $release ? $release['version'] : $this->version;
 
 		return (object) array(
-			'name'          => 'Chrono Timeline Block',
+			'name'          => 'WP Chrono timeline block',
 			'slug'          => $this->slug,
 			'version'       => $version,
 			'author'        => 'Cédric',
@@ -264,14 +264,14 @@ class CTB_Updater {
 			$release = $this->get_release();
 			$class   = 'notice-warning';
 			/* translators: %s: version number */
-			$message = sprintf( __( 'Chrono Timeline Block: version %s is available. Use the "Update now" link below.', 'chrono-timeline-block' ), $release ? $release['version'] : '' );
+			$message = sprintf( __( 'WP Chrono timeline block: version %s is available. Use the "Update now" link below.', 'chrono-timeline-block' ), $release ? $release['version'] : '' );
 		} elseif ( 'latest' === $status ) {
 			$class = 'notice-success';
 			/* translators: %s: version number */
-			$message = sprintf( __( 'Chrono Timeline Block is up to date (version %s).', 'chrono-timeline-block' ), $this->version );
+			$message = sprintf( __( 'WP Chrono timeline block is up to date (version %s).', 'chrono-timeline-block' ), $this->version );
 		} else {
 			$class   = 'notice-error';
-			$message = __( 'Chrono Timeline Block: could not reach GitHub. Please try again later.', 'chrono-timeline-block' );
+			$message = __( 'WP Chrono timeline block: could not reach GitHub. Please try again later.', 'chrono-timeline-block' );
 		}
 
 		printf( '<div class="notice %s is-dismissible"><p>%s</p></div>', esc_attr( $class ), esc_html( $message ) );

@@ -1,4 +1,4 @@
-# WP-Chrono Timeline Block
+# WP Chrono timeline block
 
 Lightweight Gutenberg block for WordPress to build **vertical** (one-sided or alternating), **horizontal** and **tabbed** timelines, with 7 themes, ready-made templates, icons, images, lightbox, custom colors and scroll animation. No build step, translation-ready (English / French).
 
@@ -81,6 +81,10 @@ languages/                  .pot template and French translation (.po, .mo, .jso
 ```
 
 ## Changelog
+
+### 1.4.1
+- Plugin renamed to "WP Chrono timeline block" in the WordPress admin
+
 
 ### 1.4.0
 - Automatic updates from GitHub releases (with "Check for updates" link, release notes in "View details", auto-update support)

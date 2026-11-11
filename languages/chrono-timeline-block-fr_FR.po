@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Chrono Timeline Block 1.4.0\n"
+"Project-Id-Version: WP Chrono timeline block 1.4.1\n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -233,18 +233,6 @@ msgstr "Verticale — ligne à droite"
 msgid "Check for updates"
 msgstr "Rechercher les mises à jour"
 
-msgid "Chrono Timeline Block"
-msgstr "Chrono Timeline Block"
-
-msgid "Chrono Timeline Block is up to date (version %s)."
-msgstr "Chrono Timeline Block est à jour (version %s)."
-
-msgid "Chrono Timeline Block: could not reach GitHub. Please try again later."
-msgstr "Chrono Timeline Block : impossible de joindre GitHub. Réessayez plus tard."
-
-msgid "Chrono Timeline Block: version %s is available. Use the \"Update now\" link below."
-msgstr "Chrono Timeline Block : la version %s est disponible. Utilisez le lien « Mettre à jour maintenant » ci-dessous."
-
 msgid "Close"
 msgstr "Fermer"
 
@@ -262,6 +250,18 @@ msgstr "Image suivante"
 
 msgid "Previous image"
 msgstr "Image précédente"
+
+msgid "WP Chrono timeline block"
+msgstr "WP Chrono timeline block"
+
+msgid "WP Chrono timeline block is up to date (version %s)."
+msgstr "WP Chrono timeline block est à jour (version %s)."
+
+msgid "WP Chrono timeline block: could not reach GitHub. Please try again later."
+msgstr "WP Chrono timeline block : impossible de joindre GitHub. Réessayez plus tard."
+
+msgid "WP Chrono timeline block: version %s is available. Use the \"Update now\" link below."
+msgstr "WP Chrono timeline block : la version %s est disponible. Utilisez le lien « Mettre à jour maintenant » ci-dessous."
 
 msgctxt "block title"
 msgid "Timeline"
