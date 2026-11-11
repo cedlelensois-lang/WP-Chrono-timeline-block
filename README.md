@@ -83,7 +83,7 @@ languages/                  .pot template and French translation (.po, .mo, .jso
 
 ## Changelog
 
-### 1.4.2
+### 1.4.3
 - Releases are now built and published automatically by a GitHub Action when a version tag is pushed (plugin zip attached)
 
 

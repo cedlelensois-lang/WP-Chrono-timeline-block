@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Chrono timeline block 1.4.2\n"
+"Project-Id-Version: WP Chrono timeline block 1.4.3\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "X-Domain: chrono-timeline-block\n"
 
