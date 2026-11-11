@@ -1,0 +1,40 @@
+/* Ajustements dans l'éditeur */
+
+.ctb-timeline .ctb-item.wp-block {
+	max-width: none;
+	margin: 0;
+}
+
+.ctb-timeline__add {
+	display: flex;
+	justify-content: center;
+	margin-top: 1.5rem;
+}
+
+.ctb-timeline .ctb-item__date:empty::before,
+.ctb-timeline .ctb-item__date [data-rich-text-placeholder] {
+	opacity: 0.6;
+}
+
+/* Barre latérale */
+.ctb-color-control {
+	margin-bottom: 16px;
+}
+
+.ctb-color-control__label {
+	margin: 0 0 8px;
+	font-size: 11px;
+	font-weight: 500;
+	text-transform: uppercase;
+}
+
+.ctb-icon-grid {
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	gap: 4px;
+	margin-top: 12px;
+}
+
+.ctb-icon-grid .components-button {
+	justify-content: center;
+}

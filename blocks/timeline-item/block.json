@@ -1,0 +1,68 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ctb/timeline-item",
+	"title": "Timeline event",
+	"category": "design",
+	"icon": "marker",
+	"parent": [
+		"ctb/timeline"
+	],
+	"description": "A timeline step: date, title, text, image and icon.",
+	"textdomain": "chrono-timeline-block",
+	"attributes": {
+		"date": {
+			"type": "string",
+			"source": "html",
+			"selector": ".ctb-item__date"
+		},
+		"title": {
+			"type": "string",
+			"source": "html",
+			"selector": ".ctb-item__title"
+		},
+		"content": {
+			"type": "string",
+			"source": "html",
+			"selector": ".ctb-item__content"
+		},
+		"mediaId": {
+			"type": "number"
+		},
+		"mediaUrl": {
+			"type": "string"
+		},
+		"mediaAlt": {
+			"type": "string",
+			"default": ""
+		},
+		"mediaFullUrl": {
+			"type": "string"
+		},
+		"imageLink": {
+			"type": "string",
+			"default": "none"
+		},
+		"markerType": {
+			"type": "string",
+			"default": "dot"
+		},
+		"icon": {
+			"type": "string",
+			"default": "star-filled"
+		},
+		"markerText": {
+			"type": "string",
+			"default": ""
+		},
+		"accentColor": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "ctb-editor",
+	"style": "ctb-style"
+}

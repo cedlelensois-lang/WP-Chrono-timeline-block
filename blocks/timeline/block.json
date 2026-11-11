@@ -1,0 +1,103 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ctb/timeline",
+	"title": "Timeline",
+	"category": "design",
+	"icon": "backup",
+	"description": "Vertical (one side or alternating) or horizontal timeline.",
+	"keywords": [
+		"timeline",
+		"history",
+		"chronology",
+		"milestones"
+	],
+	"textdomain": "chrono-timeline-block",
+	"attributes": {
+		"layout": {
+			"type": "string",
+			"default": "both"
+		},
+		"datePosition": {
+			"type": "string",
+			"default": "opposite"
+		},
+		"animate": {
+			"type": "boolean",
+			"default": true
+		},
+		"lineColor": {
+			"type": "string"
+		},
+		"lineWidth": {
+			"type": "number"
+		},
+		"dotColor": {
+			"type": "string"
+		},
+		"dotSize": {
+			"type": "number"
+		},
+		"cardBg": {
+			"type": "string"
+		},
+		"cardText": {
+			"type": "string"
+		},
+		"titleColor": {
+			"type": "string"
+		},
+		"dateColor": {
+			"type": "string"
+		},
+		"radius": {
+			"type": "number"
+		},
+		"gap": {
+			"type": "number"
+		},
+		"shadow": {
+			"type": "boolean",
+			"default": true
+		}
+	},
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"align": [
+			"wide",
+			"full"
+		],
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true
+		}
+	},
+	"example": {
+		"innerBlocks": [
+			{
+				"name": "ctb/timeline-item",
+				"attributes": {
+					"date": "2020",
+					"title": "Founded",
+					"content": "The project is launched."
+				}
+			},
+			{
+				"name": "ctb/timeline-item",
+				"attributes": {
+					"date": "2023",
+					"title": "Growth",
+					"content": "New offices open."
+				}
+			}
+		]
+	},
+	"editorScript": "ctb-editor",
+	"editorStyle": "ctb-editor-style",
+	"style": "ctb-style",
+	"viewScript": "ctb-view"
+}

@@ -1,0 +1,216 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"X-Domain: chrono-timeline-block\n"
+
+msgid "1 to 3 characters recommended (e.g. 1, A, 🚀)."
+msgstr ""
+
+msgid "A key milestone"
+msgstr ""
+
+msgid "Above the card"
+msgstr ""
+
+msgid "Accent color for this event"
+msgstr ""
+
+msgid "Add an event"
+msgstr ""
+
+msgid "Add an image"
+msgstr ""
+
+msgid "Add text, an image or an icon."
+msgstr ""
+
+msgid "Alt text"
+msgstr ""
+
+msgid "Animate on scroll"
+msgstr ""
+
+msgid "Card background"
+msgstr ""
+
+msgid "Card corner radius (px)"
+msgstr ""
+
+msgid "Card shadow"
+msgstr ""
+
+msgid "Card text"
+msgstr ""
+
+msgid "Choose an image"
+msgstr ""
+
+msgid "Colors"
+msgstr ""
+
+msgid "Customize colors and layout in the sidebar."
+msgstr ""
+
+msgid "Date position"
+msgstr ""
+
+msgid "Dates"
+msgstr ""
+
+msgid "Date…"
+msgstr ""
+
+msgid "Describe the first step of your story here."
+msgstr ""
+
+msgid "Description…"
+msgstr ""
+
+msgid "Dimensions"
+msgstr ""
+
+msgid "Do nothing"
+msgstr ""
+
+msgid "Dot"
+msgstr ""
+
+msgid "Dot size (px)"
+msgstr ""
+
+msgid "Dots / icons"
+msgstr ""
+
+msgid "Enlarge to full size (lightbox)"
+msgstr ""
+
+msgid "Event title…"
+msgstr ""
+
+msgid "Horizontal (scrolling)"
+msgstr ""
+
+msgid "Icon"
+msgstr ""
+
+msgid "Image"
+msgstr ""
+
+msgid "Layout"
+msgstr ""
+
+msgid "Layout style"
+msgstr ""
+
+msgid "Line"
+msgstr ""
+
+msgid "Line thickness (px)"
+msgstr ""
+
+msgid "Marker"
+msgstr ""
+
+msgid "Marker text"
+msgstr ""
+
+msgid "Marker type"
+msgstr ""
+
+msgid "On image click"
+msgstr ""
+
+msgid "On mobile and in one-sided layouts, the date is shown above the card."
+msgstr ""
+
+msgid "Open the image in a new tab"
+msgstr ""
+
+msgid "Opposite the card"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "Remove image"
+msgstr ""
+
+msgid "Replace"
+msgstr ""
+
+msgid "Replace image"
+msgstr ""
+
+msgid "Space between events (px)"
+msgstr ""
+
+msgid "Text / number / emoji"
+msgstr ""
+
+msgid "The beginning"
+msgstr ""
+
+msgid "Titles"
+msgstr ""
+
+msgid "Today"
+msgstr ""
+
+msgid "Vertical — alternating (both sides)"
+msgstr ""
+
+msgid "Vertical — line on the left"
+msgstr ""
+
+msgid "Vertical — line on the right"
+msgstr ""
+
+msgctxt "block title"
+msgid "Timeline"
+msgstr ""
+
+msgctxt "block description"
+msgid "Vertical (one side or alternating) or horizontal timeline."
+msgstr ""
+
+msgctxt "block title"
+msgid "Timeline event"
+msgstr ""
+
+msgctxt "block description"
+msgid "A timeline step: date, title, text, image and icon."
+msgstr ""
+
+msgctxt "block keyword"
+msgid "timeline"
+msgstr ""
+
+msgctxt "block keyword"
+msgid "history"
+msgstr ""
+
+msgctxt "block keyword"
+msgid "chronology"
+msgstr ""
+
+msgctxt "block keyword"
+msgid "milestones"
+msgstr ""
+
+msgid "Gutenberg block to build vertical timelines — one-sided or alternating — or horizontal ones, with icons, images, colors, a lightbox and scroll animation."
+msgstr ""
+
+msgid "Enlarged image"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Previous image"
+msgstr ""
+
+msgid "Next image"
+msgstr ""
+
+msgid "Chrono Timeline Block"
+msgstr ""

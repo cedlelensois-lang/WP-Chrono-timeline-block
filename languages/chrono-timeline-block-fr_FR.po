@@ -1,0 +1,221 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Chrono Timeline Block 1.2.0\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Domain: chrono-timeline-block\n"
+
+msgid "1 to 3 characters recommended (e.g. 1, A, 🚀)."
+msgstr "1 à 3 caractères conseillés (ex. 1, A, 🚀)."
+
+msgid "A key milestone"
+msgstr "Une étape clé"
+
+msgid "Above the card"
+msgstr "Au-dessus de la carte"
+
+msgid "Accent color for this event"
+msgstr "Couleur d’accent de cet événement"
+
+msgid "Add an event"
+msgstr "Ajouter un événement"
+
+msgid "Add an image"
+msgstr "Ajouter une image"
+
+msgid "Add text, an image or an icon."
+msgstr "Ajoutez du texte, une image ou une icône."
+
+msgid "Alt text"
+msgstr "Texte alternatif"
+
+msgid "Animate on scroll"
+msgstr "Animation à l’apparition"
+
+msgid "Card background"
+msgstr "Fond des cartes"
+
+msgid "Card corner radius (px)"
+msgstr "Arrondi des cartes (px)"
+
+msgid "Card shadow"
+msgstr "Ombre des cartes"
+
+msgid "Card text"
+msgstr "Texte des cartes"
+
+msgid "Choose an image"
+msgstr "Choisir une image"
+
+msgid "Colors"
+msgstr "Couleurs"
+
+msgid "Customize colors and layout in the sidebar."
+msgstr "Personnalisez les couleurs et la disposition dans la barre latérale."
+
+msgid "Date position"
+msgstr "Position de la date"
+
+msgid "Dates"
+msgstr "Dates"
+
+msgid "Date…"
+msgstr "Date…"
+
+msgid "Describe the first step of your story here."
+msgstr "Décrivez ici la première étape de votre histoire."
+
+msgid "Description…"
+msgstr "Description…"
+
+msgid "Dimensions"
+msgstr "Dimensions"
+
+msgid "Do nothing"
+msgstr "Ne rien faire"
+
+msgid "Dot"
+msgstr "Point"
+
+msgid "Dot size (px)"
+msgstr "Taille du point (px)"
+
+msgid "Dots / icons"
+msgstr "Points / icônes"
+
+msgid "Enlarge to full size (lightbox)"
+msgstr "Agrandir en taille réelle (lightbox)"
+
+msgid "Event title…"
+msgstr "Titre de l’événement…"
+
+msgid "Horizontal (scrolling)"
+msgstr "Horizontale (défilement)"
+
+msgid "Icon"
+msgstr "Icône"
+
+msgid "Image"
+msgstr "Image"
+
+msgid "Layout"
+msgstr "Disposition"
+
+msgid "Layout style"
+msgstr "Mise en page"
+
+msgid "Line"
+msgstr "Ligne"
+
+msgid "Line thickness (px)"
+msgstr "Épaisseur de la ligne (px)"
+
+msgid "Marker"
+msgstr "Marqueur"
+
+msgid "Marker text"
+msgstr "Texte du marqueur"
+
+msgid "Marker type"
+msgstr "Type de marqueur"
+
+msgid "On image click"
+msgstr "Au clic sur l’image"
+
+msgid "On mobile and in one-sided layouts, the date is shown above the card."
+msgstr "Sur mobile et en mode « un côté », la date passe au-dessus de la carte."
+
+msgid "Open the image in a new tab"
+msgstr "Ouvrir l’image dans un nouvel onglet"
+
+msgid "Opposite the card"
+msgstr "En face de la carte"
+
+msgid "Remove"
+msgstr "Retirer"
+
+msgid "Remove image"
+msgstr "Retirer l’image"
+
+msgid "Replace"
+msgstr "Remplacer"
+
+msgid "Replace image"
+msgstr "Remplacer l’image"
+
+msgid "Space between events (px)"
+msgstr "Espace entre les événements (px)"
+
+msgid "Text / number / emoji"
+msgstr "Texte / numéro / emoji"
+
+msgid "The beginning"
+msgstr "Les débuts"
+
+msgid "Titles"
+msgstr "Titres"
+
+msgid "Today"
+msgstr "Aujourd’hui"
+
+msgid "Vertical — alternating (both sides)"
+msgstr "Verticale — alternée (deux côtés)"
+
+msgid "Vertical — line on the left"
+msgstr "Verticale — ligne à gauche"
+
+msgid "Vertical — line on the right"
+msgstr "Verticale — ligne à droite"
+
+msgctxt "block title"
+msgid "Timeline"
+msgstr "Timeline"
+
+msgctxt "block description"
+msgid "Vertical (one side or alternating) or horizontal timeline."
+msgstr "Frise chronologique verticale (un côté ou alternée) ou horizontale."
+
+msgctxt "block title"
+msgid "Timeline event"
+msgstr "Événement de timeline"
+
+msgctxt "block description"
+msgid "A timeline step: date, title, text, image and icon."
+msgstr "Une étape de la frise : date, titre, texte, image et icône."
+
+msgctxt "block keyword"
+msgid "timeline"
+msgstr "frise"
+
+msgctxt "block keyword"
+msgid "history"
+msgstr "historique"
+
+msgctxt "block keyword"
+msgid "chronology"
+msgstr "chronologie"
+
+msgctxt "block keyword"
+msgid "milestones"
+msgstr "étapes"
+
+msgid "Gutenberg block to build vertical timelines — one-sided or alternating — or horizontal ones, with icons, images, colors, a lightbox and scroll animation."
+msgstr "Bloc Gutenberg pour créer des frises chronologiques verticales — un côté ou alternées — ou horizontales, avec icônes, images, couleurs, lightbox et animation au défilement."
+
+msgid "Enlarged image"
+msgstr "Image agrandie"
+
+msgid "Close"
+msgstr "Fermer"
+
+msgid "Previous image"
+msgstr "Image précédente"
+
+msgid "Next image"
+msgstr "Image suivante"
+
+msgid "Chrono Timeline Block"
+msgstr "Chrono Timeline Block"
