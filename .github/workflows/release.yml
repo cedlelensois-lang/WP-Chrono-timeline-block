@@ -1,0 +1,50 @@
+name: Release
+
+# À chaque tag (ex. v1.4.1 ou 1.4.1) : construit le zip du plugin
+# et publie la release GitHub avec le zip joint.
+on:
+  push:
+    tags:
+      - 'v*'
+      - '[0-9]*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check that the tag matches the plugin version
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          VERSION=$(grep -m1 -E '^\s*\*\s*Version:' chrono-timeline-block.php | awk '{print $NF}')
+          CONST=$(grep -m1 "define( 'CTB_VERSION'" chrono-timeline-block.php | sed -E "s/.*'([0-9.]+)'.*/\1/")
+          echo "Tag: $TAG / Version header: $VERSION / CTB_VERSION: $CONST"
+          if [ "$TAG" != "$VERSION" ] || [ "$TAG" != "$CONST" ]; then
+            echo "::error::The tag ($TAG) must match 'Version:' ($VERSION) and CTB_VERSION ($CONST) in chrono-timeline-block.php"
+            exit 1
+          fi
+
+      - name: Build plugin zip
+        run: |
+          mkdir -p build/chrono-timeline-block
+          cp -r chrono-timeline-block.php assets blocks includes languages LICENSE build/chrono-timeline-block/
+          cd build && zip -r ../chrono-timeline-block.zip chrono-timeline-block
+
+      - name: Extract release notes from README changelog
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          awk -v v="### $TAG" '$0==v{f=1;next} /^### /{if(f)exit} /^## /{if(f)exit} f' README.md > notes.md
+          if [ ! -s notes.md ]; then echo "Release $TAG" > notes.md; fi
+          cat notes.md
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: WP Chrono timeline block ${{ github.ref_name }}
+          body_path: notes.md
+          files: chrono-timeline-block.zip
+          fail_on_unmatched_files: true

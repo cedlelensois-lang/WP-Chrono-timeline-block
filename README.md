@@ -41,10 +41,11 @@ The plugin checks this repository's [releases](https://github.com/cedlelensois-l
 
 **Publishing a new version:**
 
-1. Bump `Version:` and `CTB_VERSION` in `chrono-timeline-block.php`.
+1. Bump `Version:` and `CTB_VERSION` in `chrono-timeline-block.php`, and add a `### x.y.z` entry to the changelog below.
 2. Commit and push.
-3. Create a GitHub release whose tag is the version number (e.g. `1.4.1` or `v1.4.1`).
-4. Recommended: attach a `.zip` of the plugin folder to the release. If none is attached, the source code archive is used and the folder is renamed automatically during the update.
+3. Push a tag with the version number (e.g. `v1.4.2` or `1.4.2`).
+
+The **Release** GitHub Action (`.github/workflows/release.yml`) then checks that the tag matches the plugin version, builds `chrono-timeline-block.zip` (plugin files only), and publishes the GitHub release with the zip attached and the changelog entry as release notes.
 
 Pre-releases and drafts are ignored. The `Update URI` header guarantees WordPress.org is never queried for this plugin.
 
