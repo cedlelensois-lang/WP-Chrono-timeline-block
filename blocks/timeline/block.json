@@ -68,6 +68,10 @@
 		"verticalOnMobile": {
 			"type": "boolean",
 			"default": false
+		},
+		"showArrows": {
+			"type": "boolean",
+			"default": true
 		}
 	},
 	"supports": {

@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Chrono timeline block 1.4.3\n"
+"Project-Id-Version: WP Chrono timeline block 1.5.0\n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,6 +29,9 @@ msgstr "Ajouter une image"
 msgid "Add text, an image or an icon."
 msgstr "Ajoutez du texte, une image ou une icône."
 
+msgid "Adds a \"Read more\" button to the card, e.g. to a page or a family record."
+msgstr "Ajoute un bouton « En savoir plus » à la carte, par exemple vers une page ou une fiche familiale."
+
 msgid "Alt text"
 msgstr "Texte alternatif"
 
@@ -37,6 +40,12 @@ msgstr "Animation à l’apparition"
 
 msgid "Bold"
 msgstr "Audacieux"
+
+msgid "Button / link"
+msgstr "Bouton / lien"
+
+msgid "Button text"
+msgstr "Texte du bouton"
 
 msgid "Card background"
 msgstr "Fond des cartes"
@@ -99,7 +108,7 @@ msgid "Dots / icons"
 msgstr "Points / icônes"
 
 msgid "Dual orientation: horizontal on large screens, vertical on phones."
-msgstr "Double orientation : horizontale sur grand écran, verticale sur téléphone."
+msgstr "Double orientation : horizontale sur grand écran, verticale sur téléphone."
 
 msgid "Elegant"
 msgstr "Élégant"
@@ -109,6 +118,12 @@ msgstr "Agrandir en taille réelle (lightbox)"
 
 msgid "Event title…"
 msgstr "Titre de l’événement…"
+
+msgid "Events sorted by date."
+msgstr "Événements triés par date."
+
+msgid "Events sorted by date. Events without a recognizable date were placed at the end."
+msgstr "Événements triés par date. Ceux dont la date n’a pas été reconnue ont été placés à la fin."
 
 msgid "Horizontal (scrolling)"
 msgstr "Horizontale (défilement)"
@@ -131,6 +146,9 @@ msgstr "Ligne"
 msgid "Line thickness (px)"
 msgstr "Épaisseur de la ligne (px)"
 
+msgid "Link URL"
+msgstr "Adresse du lien"
+
 msgid "Marker"
 msgstr "Marqueur"
 
@@ -146,11 +164,20 @@ msgstr "Minimal"
 msgid "Modern"
 msgstr "Moderne"
 
+msgid "Newest first"
+msgstr "Plus récent d’abord"
+
+msgid "Oldest first"
+msgstr "Plus ancien d’abord"
+
 msgid "On image click"
 msgstr "Au clic sur l’image"
 
 msgid "On mobile and in one-sided layouts, the date is shown above the card."
-msgstr "Sur mobile et en mode « un côté », la date passe au-dessus de la carte."
+msgstr "Sur mobile et en mode « un côté », la date passe au-dessus de la carte."
+
+msgid "Open in a new tab"
+msgstr "Ouvrir dans un nouvel onglet"
 
 msgid "Open the image in a new tab"
 msgstr "Ouvrir l’image dans un nouvel onglet"
@@ -161,17 +188,35 @@ msgstr "En face de la carte"
 msgid "Preconfigured timeline template."
 msgstr "Modèle de timeline préconfiguré."
 
+msgid "Previous / next buttons above the timeline on the site."
+msgstr "Boutons précédent / suivant au-dessus de la timeline, sur le site."
+
+msgid "Read more"
+msgstr "En savoir plus"
+
 msgid "Remove"
 msgstr "Retirer"
 
+msgid "Remove button"
+msgstr "Retirer le bouton"
+
 msgid "Remove image"
 msgstr "Retirer l’image"
+
+msgid "Reorders the events using their date (e.g. 1906, 20 May 1906, 1906-05-20, 20/05/1906). You can undo with Ctrl+Z."
+msgstr "Réordonne les événements selon leur date (ex. 1906, 20 mai 1906, 1906-05-20, 20/05/1906). Annulable avec Ctrl+Z."
 
 msgid "Replace"
 msgstr "Remplacer"
 
 msgid "Replace image"
 msgstr "Remplacer l’image"
+
+msgid "Show navigation arrows"
+msgstr "Afficher les flèches de navigation"
+
+msgid "Sort by date"
+msgstr "Trier par date"
 
 msgid "Space between events (px)"
 msgstr "Espace entre les événements (px)"
@@ -193,6 +238,9 @@ msgstr "Thème"
 
 msgid "Themes work with every layout. Colors set below override the theme."
 msgstr "Les thèmes fonctionnent avec toutes les mises en page. Les couleurs choisies plus bas passent avant le thème."
+
+msgid "This type of link is not allowed. Use an address starting with https://, mailto: or tel:."
+msgstr "Ce type de lien n’est pas autorisé. Utilisez une adresse commençant par https://, mailto: ou tel:."
 
 msgid "Timeline – Bold, tabs"
 msgstr "Timeline – Audacieux, onglets"
@@ -245,11 +293,20 @@ msgstr "Image agrandie"
 msgid "Gutenberg block to build vertical (one-sided or alternating), horizontal or tabbed timelines, with themes, templates, icons, images, a lightbox and scroll animation."
 msgstr "Bloc Gutenberg pour créer des frises chronologiques verticales (un côté ou alternées), horizontales ou en onglets, avec thèmes, modèles, icônes, images, lightbox et animation au défilement."
 
+msgid "Next events"
+msgstr "Événements suivants"
+
 msgid "Next image"
 msgstr "Image suivante"
 
+msgid "Previous events"
+msgstr "Événements précédents"
+
 msgid "Previous image"
 msgstr "Image précédente"
+
+msgid "Timeline"
+msgstr "Frise chronologique"
 
 msgid "WP Chrono timeline block"
 msgstr "WP Chrono timeline block"
@@ -258,10 +315,10 @@ msgid "WP Chrono timeline block is up to date (version %s)."
 msgstr "WP Chrono timeline block est à jour (version %s)."
 
 msgid "WP Chrono timeline block: could not reach GitHub. Please try again later."
-msgstr "WP Chrono timeline block : impossible de joindre GitHub. Réessayez plus tard."
+msgstr "WP Chrono timeline block : impossible de joindre GitHub. Réessayez plus tard."
 
 msgid "WP Chrono timeline block: version %s is available. Use the \"Update now\" link below."
-msgstr "WP Chrono timeline block : la version %s est disponible. Utilisez le lien « Mettre à jour maintenant » ci-dessous."
+msgstr "WP Chrono timeline block : la version %s est disponible. Utilisez le lien « Mettre à jour maintenant » ci-dessous."
 
 msgctxt "block title"
 msgid "Timeline"
@@ -273,7 +330,7 @@ msgstr "Événement de timeline"
 
 msgctxt "block description"
 msgid "A timeline step: date, title, text, image and icon."
-msgstr "Une étape de la frise : date, titre, texte, image et icône."
+msgstr "Une étape de la frise : date, titre, texte, image et icône."
 
 msgctxt "block keyword"
 msgid "timeline"

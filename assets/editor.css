@@ -119,3 +119,22 @@
 .ctb-layout-tabs .ctb-item {
 	animation: none !important;
 }
+
+.ctb-sort-buttons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.ctb-url-field {
+	margin-bottom: 8px;
+}
+
+.ctb-url-field .block-editor-url-input input {
+	width: 100%;
+}
+
+/* Bouton d'événement : texte modifiable dans l'éditeur */
+.ctb-timeline .ctb-item__more .ctb-item__button {
+	cursor: text;
+}

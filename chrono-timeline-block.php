@@ -1,11 +1,13 @@
 <?php
 /**
  * Plugin Name:       WP Chrono timeline block
+ * Plugin URI:        https://github.com/cedlelensois-lang/WP-Chrono-timeline-block
  * Description:       Gutenberg block to build vertical (one-sided or alternating), horizontal or tabbed timelines, with themes, templates, icons, images, a lightbox and scroll animation.
- * Version:           1.4.3
+ * Version:           1.5.0
  * Requires at least: 6.3
  * Requires PHP:      7.4
  * Author:            Cédric
+ * Author URI:        https://github.com/cedlelensois-lang
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       chrono-timeline-block
@@ -15,7 +17,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'CTB_VERSION', '1.4.3' );
+define( 'CTB_VERSION', '1.5.0' );
 
 // Mises à jour depuis les releases GitHub.
 require_once __DIR__ . '/includes/class-ctb-updater.php';
@@ -33,13 +35,14 @@ function ctb_register_blocks() {
 	wp_register_script(
 		'ctb-editor',
 		$url . 'assets/editor.js',
-		array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-i18n', 'wp-data', 'wp-core-data' ),
+		array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-i18n', 'wp-data', 'wp-core-data', 'wp-notices' ),
 		CTB_VERSION,
 		true
 	);
 
-	wp_register_style( 'ctb-style', $url . 'assets/style.css', array( 'dashicons' ), CTB_VERSION );
-	wp_register_style( 'ctb-editor-style', $url . 'assets/editor.css', array(), CTB_VERSION );
+	// Dashicons : toujours dans l'éditeur, sur le site seulement si une icône est utilisée.
+	wp_register_style( 'ctb-style', $url . 'assets/style.css', array(), CTB_VERSION );
+	wp_register_style( 'ctb-editor-style', $url . 'assets/editor.css', array( 'dashicons' ), CTB_VERSION );
 
 	wp_register_script(
 		'ctb-view',
@@ -53,10 +56,13 @@ function ctb_register_blocks() {
 		'ctb-view',
 		'ctbL10n',
 		array(
-			'dialog'   => __( 'Enlarged image', 'chrono-timeline-block' ),
-			'close'    => __( 'Close', 'chrono-timeline-block' ),
-			'previous' => __( 'Previous image', 'chrono-timeline-block' ),
-			'next'     => __( 'Next image', 'chrono-timeline-block' ),
+			'dialog'     => __( 'Enlarged image', 'chrono-timeline-block' ),
+			'close'      => __( 'Close', 'chrono-timeline-block' ),
+			'previous'   => __( 'Previous image', 'chrono-timeline-block' ),
+			'next'       => __( 'Next image', 'chrono-timeline-block' ),
+			'region'     => __( 'Timeline', 'chrono-timeline-block' ),
+			'prevEvents' => __( 'Previous events', 'chrono-timeline-block' ),
+			'nextEvents' => __( 'Next events', 'chrono-timeline-block' ),
 		)
 	);
 
@@ -64,4 +70,16 @@ function ctb_register_blocks() {
 	register_block_type( $dir . 'blocks/timeline-item' );
 
 	wp_set_script_translations( 'ctb-editor', 'chrono-timeline-block', $dir . 'languages' );
+}
+
+/**
+ * Charge les Dashicons sur le site uniquement si un événement utilise une icône.
+ */
+add_filter( 'render_block_ctb/timeline-item', 'ctb_maybe_enqueue_dashicons', 10, 2 );
+
+function ctb_maybe_enqueue_dashicons( $content, $block ) {
+	if ( isset( $block['attrs']['markerType'] ) && 'icon' === $block['attrs']['markerType'] ) {
+		wp_enqueue_style( 'dashicons' );
+	}
+	return $content;
 }

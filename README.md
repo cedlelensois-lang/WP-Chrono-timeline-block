@@ -13,7 +13,9 @@ Lightweight Gutenberg block for WordPress to build **vertical** (one-sided or al
 - **Dual orientation**: horizontal and tabbed timelines can switch to a vertical layout on phones
 - **7 themes**: Default, Minimal, Classic, Modern, Elegant, Dark and Bold — each works with every layout, and your own colors override the theme
 - **Templates**: preconfigured layout + theme combinations available straight from the block inserter (e.g. "Timeline – Elegant, alternating", "Timeline – Bold, tabs")
-- **Events** with date, title, rich text and optional image
+- **Events** with date, title, rich text, optional image and optional **"Read more" button** (link to a page, a family record…, optionally in a new tab)
+- **Sort by date** in one click (oldest or newest first); understands `1906`, `20 mai 1906`, `May 20, 1906`, `1906-05-20`, `20/05/1906`
+- **Navigation arrows** for horizontal timelines (can be turned off), plus keyboard scrolling
 - **Markers**: dot, Dashicon (24 icons) or short text (number, letter, emoji), with a per-event accent color
 - **Image click action**: none, full-size lightbox (with previous/next navigation, keyboard and screen-reader support) or open in a new tab
 - **Styling**: line, dot, card, title and date colors (uses your theme palette), line thickness, dot size, card radius, spacing, shadow on/off
@@ -25,12 +27,12 @@ Lightweight Gutenberg block for WordPress to build **vertical** (one-sided or al
 
 ## Requirements
 
-- WordPress 6.3 or later
-- PHP 7.4 or later
+- WordPress 6.3 or later — tested up to **WordPress 7.1.5**
+- PHP 7.4 or later — tested with PHP 8.3
 
 ## Installation
 
-1. Download this repository as a ZIP (**Code → Download ZIP**).
+1. Download `chrono-timeline-block.zip` from the [latest release](https://github.com/cedlelensois-lang/WP-Chrono-timeline-block/releases/latest) (not the "Source code" archive).
 2. In WordPress, go to **Plugins → Add New → Upload Plugin**, choose the ZIP and click **Install Now**, then **Activate**.
 
 You can also copy the folder directly into `wp-content/plugins/`.
@@ -56,6 +58,8 @@ Pre-releases and drafts are ignored. The `Update URI` header guarantees WordPres
 3. Select the parent **Timeline** block (use the "Select parent" button or the List View) to pick a theme and change the layout, colors and dimensions.
    Tip: search for "Timeline –" in the inserter to start from a ready-made template.
 4. Click **Add an event** under the timeline to add more steps.
+5. To add a button to an event, select it and fill in **Button / link** in the sidebar; the button text can also be edited directly on the card.
+6. To reorder events chronologically, select the Timeline block and use **Sort by date** in the sidebar (undo with Ctrl+Z / Cmd+Z).
 
 ## Translations
 
@@ -66,26 +70,51 @@ The interface follows the site language (or the user's profile language).
 | English | Built-in (source) |
 | French (`fr_FR`) | Included |
 
-To add a language, start from `languages/chrono-timeline-block.pot` using Poedit or Loco Translate. JavaScript strings also need a JSON file (`chrono-timeline-block-{locale}-ctb-editor.json`), which `wp i18n make-json` can generate.
+To add a language, start from `languages/chrono-timeline-block.pot` with Poedit or Loco Translate and save `chrono-timeline-block-{locale}.po` / `.mo` in `languages/`. Editor strings also need a JSON file: run `wp i18n make-json languages --no-purge`, or name it `chrono-timeline-block-{locale}-ctb-editor.json`.
 
 ## File structure
 
 ```
-chrono-timeline-block.php   Plugin bootstrap (registers scripts, styles, blocks, translations)
-blocks/timeline/            Parent block metadata (block.json)
-blocks/timeline-item/       Event block metadata (block.json)
-assets/editor.js            Editor UI for both blocks (no build step required)
-assets/editor.css           Editor-only styles
-assets/style.css            Front-end and editor styles
-assets/view.js              Front-end scroll animation and lightbox
-languages/                  .pot template and French translation (.po, .mo, .json)
+chrono-timeline-block.php       Plugin bootstrap (scripts, styles, blocks, translations)
+includes/class-ctb-updater.php  Updates from GitHub releases
+uninstall.php                   Cleanup when the plugin is deleted
+blocks/timeline/                Parent block metadata (block.json)
+blocks/timeline-item/           Event block metadata (block.json)
+assets/editor.js                Editor UI for both blocks (no build step required)
+assets/editor.css               Editor-only styles
+assets/style.css                Front-end and editor styles
+assets/view.js                  Front-end: tabs, arrows, scroll animation, lightbox
+languages/                      .pot template and French translation (.po, .mo, .json)
+.github/workflows/release.yml   Builds the zip and publishes a release on each tag
 ```
+
+## Security
+
+- No database tables, options or settings pages; nothing is stored except a 6-hour cache of the latest GitHub release (removed on uninstall).
+- Saved markup only uses attributes allowed by WordPress for all roles, so Authors and Contributors can edit timelines safely.
+- Event button links are limited to `http(s)`, `mailto:`, `tel:`, relative links and anchors; `javascript:` and `data:` links are refused.
+- Updates are only downloaded over HTTPS from `github.com` / `api.github.com` / `codeload.github.com`. Keep two-factor authentication enabled on the GitHub account that publishes releases.
+- Report a vulnerability privately via GitHub's **Security → Report a vulnerability** on this repository.
+
+## Uninstall
+
+Deleting the plugin from **Plugins** removes its cached data. Timelines already published stay in your pages as static HTML, but they lose their styling until the plugin is reinstalled.
 
 ## Changelog
 
+### 1.5.0
+- New: "Read more" button per event (link, custom text, new tab option)
+- New: navigation arrows for horizontal timelines, keyboard-scrollable area
+- New: sort events by date (oldest / newest first)
+- Fix: horizontal timelines edited by Authors or Contributors no longer show "This block contains unexpected content" (existing timelines are migrated automatically)
+- Security: updater only accepts HTTPS downloads from GitHub, sanitizes version numbers; multisite-aware "Check for updates"
+- Performance: Dashicons are only loaded on the site when an event uses an icon
+- Added uninstall cleanup, Plugin URI / Author URI headers
+- Tested with WordPress 7.1.5; French typography fixes
+
+
 ### 1.4.3
 - Releases are now built and published automatically by a GitHub Action when a version tag is pushed (plugin zip attached)
-
 
 ### 1.4.1
 - Plugin renamed to "WP Chrono timeline block" in the WordPress admin

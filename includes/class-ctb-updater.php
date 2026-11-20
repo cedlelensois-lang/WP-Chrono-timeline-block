@@ -31,8 +31,10 @@ class CTB_Updater {
 		add_filter( 'upgrader_source_selection', array( $this, 'fix_source_dir' ), 10, 4 );
 		add_action( 'upgrader_process_complete', array( $this, 'purge_cache' ), 10, 2 );
 		add_filter( 'plugin_action_links_' . $this->basename, array( $this, 'action_links' ) );
+		add_filter( 'network_admin_plugin_action_links_' . $this->basename, array( $this, 'action_links' ) );
 		add_action( 'admin_init', array( $this, 'handle_manual_check' ) );
 		add_action( 'admin_notices', array( $this, 'manual_check_notice' ) );
+		add_action( 'network_admin_notices', array( $this, 'manual_check_notice' ) );
 	}
 
 	/**
@@ -72,26 +74,45 @@ class CTB_Updater {
 		}
 
 		// Priorité au zip du plugin joint à la release, sinon l'archive du code source.
-		$package = isset( $data['zipball_url'] ) ? $data['zipball_url'] : '';
+		$package = isset( $data['zipball_url'] ) ? $this->safe_github_url( $data['zipball_url'] ) : '';
 		if ( ! empty( $data['assets'] ) && is_array( $data['assets'] ) ) {
 			foreach ( $data['assets'] as $asset ) {
 				if ( isset( $asset['name'], $asset['browser_download_url'] ) && '.zip' === strtolower( substr( $asset['name'], -4 ) ) ) {
-					$package = $asset['browser_download_url'];
-					break;
+					$asset_url = $this->safe_github_url( $asset['browser_download_url'] );
+					if ( $asset_url ) {
+						$package = $asset_url;
+						break;
+					}
 				}
 			}
 		}
 
+		// Numéro de version : chiffres, lettres, points et tirets uniquement.
+		$version = preg_replace( '/[^0-9A-Za-z.\-]/', '', ltrim( (string) $data['tag_name'], 'vV' ) );
+		if ( '' === $version || '' === $package ) {
+			set_site_transient( self::CACHE_KEY, 0, HOUR_IN_SECONDS );
+			return null;
+		}
+
 		$release = array(
-			'version' => ltrim( $data['tag_name'], 'vV' ),
+			'version' => $version,
 			'package' => $package,
-			'url'     => isset( $data['html_url'] ) ? $data['html_url'] : 'https://github.com/' . self::REPO,
+			'url'     => isset( $data['html_url'] ) && $this->safe_github_url( $data['html_url'] ) ? $data['html_url'] : 'https://github.com/' . self::REPO,
 			'body'    => isset( $data['body'] ) ? (string) $data['body'] : '',
 			'date'    => isset( $data['published_at'] ) ? $data['published_at'] : '',
 		);
 
 		set_site_transient( self::CACHE_KEY, $release, self::CACHE_TTL );
 		return $release;
+	}
+
+	/**
+	 * N'accepte que des URL HTTPS hébergées par GitHub.
+	 */
+	private function safe_github_url( $url ) {
+		$url  = esc_url_raw( (string) $url, array( 'https' ) );
+		$host = $url ? strtolower( (string) wp_parse_url( $url, PHP_URL_HOST ) ) : '';
+		return in_array( $host, array( 'github.com', 'api.github.com', 'codeload.github.com' ), true ) ? $url : '';
 	}
 
 	/**
@@ -225,14 +246,14 @@ class CTB_Updater {
 	 */
 	public function action_links( $links ) {
 		if ( current_user_can( 'update_plugins' ) ) {
-			$url     = wp_nonce_url( admin_url( 'plugins.php?ctb_check_updates=1' ), 'ctb_check_updates' );
+			$url     = wp_nonce_url( self_admin_url( 'plugins.php?ctb_check_updates=1' ), 'ctb_check_updates' );
 			$links[] = '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Check for updates', 'chrono-timeline-block' ) . '</a>';
 		}
 		return $links;
 	}
 
 	public function handle_manual_check() {
-		if ( empty( $_GET['ctb_check_updates'] ) || ! current_user_can( 'update_plugins' ) ) {
+		if ( ! isset( $_GET['ctb_check_updates'] ) || ! current_user_can( 'update_plugins' ) ) {
 			return;
 		}
 		check_admin_referer( 'ctb_check_updates' );
@@ -250,15 +271,16 @@ class CTB_Updater {
 			$status = 'latest';
 		}
 
-		wp_safe_redirect( add_query_arg( 'ctb_checked', $status, admin_url( 'plugins.php' ) ) );
+		wp_safe_redirect( add_query_arg( 'ctb_checked', $status, self_admin_url( 'plugins.php' ) ) );
 		exit;
 	}
 
 	public function manual_check_notice() {
-		if ( empty( $_GET['ctb_checked'] ) || ! current_user_can( 'update_plugins' ) ) {
+		if ( ! isset( $_GET['ctb_checked'] ) || ! current_user_can( 'update_plugins' ) ) {
 			return;
 		}
-		$status = sanitize_key( wp_unslash( $_GET['ctb_checked'] ) );
+		// Simple message d'information : le statut est comparé à une liste fermée.
+		$status = sanitize_key( wp_unslash( $_GET['ctb_checked'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		if ( 'available' === $status ) {
 			$release = $this->get_release();

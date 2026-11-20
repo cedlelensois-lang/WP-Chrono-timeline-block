@@ -2,6 +2,13 @@
 ( function () {
 	'use strict';
 
+	var L = window.ctbL10n || {};
+	function t( key, fallback ) {
+		return L[ key ] || fallback;
+	}
+
+	var reduceMotion = window.matchMedia && window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
+
 	var hasIO = 'IntersectionObserver' in window;
 	if ( hasIO ) {
 		document.documentElement.classList.add( 'ctb-js' );
@@ -30,6 +37,59 @@
 		);
 		items.forEach( function ( item ) {
 			observer.observe( item );
+		} );
+	}
+
+	/* ---------- Horizontal : zone focalisable + flèches ---------- */
+
+	function initHorizontal() {
+		document.querySelectorAll( '.ctb-timeline.ctb-layout-horizontal' ).forEach( function ( timeline ) {
+			var list = timeline.querySelector( '.ctb-timeline__items' );
+			if ( ! list || timeline.querySelector( '.ctb-hnav' ) ) {
+				return;
+			}
+
+			// Défilement au clavier (flèches gauche/droite une fois la zone sélectionnée).
+			list.tabIndex = 0;
+			list.setAttribute( 'role', 'region' );
+			list.setAttribute( 'aria-label', t( 'region', 'Timeline' ) );
+
+			if ( timeline.getAttribute( 'data-ctb-arrows' ) === 'false' ) {
+				return;
+			}
+
+			var nav = document.createElement( 'div' );
+			nav.className = 'ctb-hnav';
+
+			function arrow( cls, label, symbol, dir ) {
+				var b = document.createElement( 'button' );
+				b.type = 'button';
+				b.className = 'ctb-hnav__btn ' + cls;
+				b.setAttribute( 'aria-label', label );
+				b.textContent = symbol;
+				b.addEventListener( 'click', function () {
+					var item = list.querySelector( '.ctb-item' );
+					var step = item ? item.getBoundingClientRect().width : list.clientWidth * 0.8;
+					list.scrollBy( { left: dir * step, behavior: reduceMotion ? 'auto' : 'smooth' } );
+				} );
+				nav.appendChild( b );
+				return b;
+			}
+
+			var prev = arrow( 'ctb-hnav__prev', t( 'prevEvents', 'Previous events' ), '\u2039', -1 );
+			var next = arrow( 'ctb-hnav__next', t( 'nextEvents', 'Next events' ), '\u203A', 1 );
+
+			function update() {
+				var max = list.scrollWidth - list.clientWidth - 1;
+				nav.hidden = max <= 0;
+				prev.disabled = list.scrollLeft <= 0;
+				next.disabled = list.scrollLeft >= max;
+			}
+
+			list.addEventListener( 'scroll', update, { passive: true } );
+			window.addEventListener( 'resize', update );
+			timeline.insertBefore( nav, list );
+			update();
 		} );
 	}
 
@@ -131,11 +191,6 @@
 	}
 
 	/* ---------- Lightbox ---------- */
-
-	var L = window.ctbL10n || {};
-	function t( key, fallback ) {
-		return L[ key ] || fallback;
-	}
 
 	var box, boxImg, boxCaption, btnPrev, btnNext, group = [], index = 0, lastFocus = null;
 
@@ -258,6 +313,7 @@
 
 	function init() {
 		initTabs();
+		initHorizontal();
 		initAnimation();
 		initLightbox();
 	}

@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Chrono timeline block 1.4.3\n"
+"Project-Id-Version: WP Chrono timeline block 1.5.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "X-Domain: chrono-timeline-block\n"
 
@@ -25,6 +25,9 @@ msgstr ""
 msgid "Add text, an image or an icon."
 msgstr ""
 
+msgid "Adds a \"Read more\" button to the card, e.g. to a page or a family record."
+msgstr ""
+
 msgid "Alt text"
 msgstr ""
 
@@ -32,6 +35,12 @@ msgid "Animate on scroll"
 msgstr ""
 
 msgid "Bold"
+msgstr ""
+
+msgid "Button / link"
+msgstr ""
+
+msgid "Button text"
 msgstr ""
 
 msgid "Card background"
@@ -106,6 +115,12 @@ msgstr ""
 msgid "Event title…"
 msgstr ""
 
+msgid "Events sorted by date."
+msgstr ""
+
+msgid "Events sorted by date. Events without a recognizable date were placed at the end."
+msgstr ""
+
 msgid "Horizontal (scrolling)"
 msgstr ""
 
@@ -127,6 +142,9 @@ msgstr ""
 msgid "Line thickness (px)"
 msgstr ""
 
+msgid "Link URL"
+msgstr ""
+
 msgid "Marker"
 msgstr ""
 
@@ -142,10 +160,19 @@ msgstr ""
 msgid "Modern"
 msgstr ""
 
+msgid "Newest first"
+msgstr ""
+
+msgid "Oldest first"
+msgstr ""
+
 msgid "On image click"
 msgstr ""
 
 msgid "On mobile and in one-sided layouts, the date is shown above the card."
+msgstr ""
+
+msgid "Open in a new tab"
 msgstr ""
 
 msgid "Open the image in a new tab"
@@ -157,16 +184,34 @@ msgstr ""
 msgid "Preconfigured timeline template."
 msgstr ""
 
+msgid "Previous / next buttons above the timeline on the site."
+msgstr ""
+
+msgid "Read more"
+msgstr ""
+
 msgid "Remove"
 msgstr ""
 
+msgid "Remove button"
+msgstr ""
+
 msgid "Remove image"
+msgstr ""
+
+msgid "Reorders the events using their date (e.g. 1906, 20 May 1906, 1906-05-20, 20/05/1906). You can undo with Ctrl+Z."
 msgstr ""
 
 msgid "Replace"
 msgstr ""
 
 msgid "Replace image"
+msgstr ""
+
+msgid "Show navigation arrows"
+msgstr ""
+
+msgid "Sort by date"
 msgstr ""
 
 msgid "Space between events (px)"
@@ -188,6 +233,9 @@ msgid "Theme"
 msgstr ""
 
 msgid "Themes work with every layout. Colors set below override the theme."
+msgstr ""
+
+msgid "This type of link is not allowed. Use an address starting with https://, mailto: or tel:."
 msgstr ""
 
 msgid "Timeline – Bold, tabs"
@@ -241,10 +289,19 @@ msgstr ""
 msgid "Gutenberg block to build vertical (one-sided or alternating), horizontal or tabbed timelines, with themes, templates, icons, images, a lightbox and scroll animation."
 msgstr ""
 
+msgid "Next events"
+msgstr ""
+
 msgid "Next image"
 msgstr ""
 
+msgid "Previous events"
+msgstr ""
+
 msgid "Previous image"
+msgstr ""
+
+msgid "Timeline"
 msgstr ""
 
 msgid "WP Chrono timeline block"

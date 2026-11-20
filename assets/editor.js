@@ -23,6 +23,7 @@
 	var useEffect = wp.element.useEffect;
 	var useState = wp.element.useState;
 	var registerBlockVariation = wp.blocks.registerBlockVariation;
+	var sprintf = wp.i18n.sprintf;
 
 	var TD = 'chrono-timeline-block';
 
@@ -47,6 +48,102 @@
 	function plainText( v ) {
 		return String( v || '' ).replace( /<[^>]*>/g, '' ).replace( /&nbsp;/g, ' ' ).trim();
 	}
+
+	// N'accepte que des liens http(s), mailto, tel, relatifs ou ancres.
+	function safeUrl( url ) {
+		url = String( url || '' ).trim();
+		if ( ! url ) {
+			return '';
+		}
+		if ( /^(https?:|mailto:|tel:)/i.test( url ) || /^[\/#?.]/.test( url ) ) {
+			return url;
+		}
+		if ( /^[a-z][a-z0-9+.-]*:/i.test( url ) ) {
+			return ''; // javascript:, data:, vbscript:…
+		}
+		return 'https://' + url; // « exemple.com » → « https://exemple.com »
+	}
+
+	var MONTHS = {
+		jan: 1, janv: 1, january: 1, janvier: 1,
+		feb: 2, fev: 2, fevr: 2, february: 2, fevrier: 2,
+		mar: 3, march: 3, mars: 3,
+		apr: 4, avr: 4, april: 4, avril: 4,
+		may: 5, mai: 5,
+		jun: 6, june: 6, juin: 6,
+		jul: 7, july: 7, juil: 7, juillet: 7,
+		aug: 8, august: 8, aou: 8, aout: 8,
+		sep: 9, sept: 9, september: 9, septembre: 9,
+		oct: 10, october: 10, octobre: 10,
+		nov: 11, november: 11, novembre: 11,
+		dec: 12, december: 12, decembre: 12
+	};
+
+	// Transforme « 20 mai 1906 », « May 20, 1906 », « 1906-05-20 », « 20/05/1906 » ou « 1906 »
+	// en nombre triable (AAAAMMJJ). Renvoie null si aucune année n'est trouvée.
+	function dateKey( raw ) {
+		var s = plainText( raw ).toLowerCase();
+		if ( s.normalize ) {
+			s = s.normalize( 'NFD' ).replace( /[\u0300-\u036f]/g, '' );
+		}
+		if ( ! s ) {
+			return null;
+		}
+		var m = s.match( /(?:^|[^\d])(\d{3,4})[-\/.](\d{1,2})(?:[-\/.](\d{1,2}))?(?!\d)/ );
+		if ( m ) {
+			return +m[ 1 ] * 10000 + Math.min( +m[ 2 ], 12 ) * 100 + ( +m[ 3 ] || 0 );
+		}
+		m = s.match( /(?:^|[^\d])(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{3,4})(?!\d)/ );
+		if ( m ) {
+			var d = +m[ 1 ], mo = +m[ 2 ];
+			if ( mo > 12 && d <= 12 ) {
+				var t = d; d = mo; mo = t;
+			}
+			return +m[ 3 ] * 10000 + Math.min( mo, 12 ) * 100 + Math.min( d, 31 );
+		}
+		var year = s.match( /(?:^|[^\d])(\d{3,4})(?!\d)/ );
+		if ( ! year ) {
+			return null;
+		}
+		var month = 0;
+		( s.match( /[a-z]+/g ) || [] ).some( function ( w ) {
+			if ( MONTHS[ w ] ) {
+				month = MONTHS[ w ];
+				return true;
+			}
+			return false;
+		} );
+		var day = 0;
+		if ( month ) {
+			var dm = s.match( /(?:^|[^\d])(\d{1,2})(?:er|st|nd|rd|th)?(?!\d)/ );
+			if ( dm && +dm[ 1 ] >= 1 && +dm[ 1 ] <= 31 ) {
+				day = +dm[ 1 ];
+			}
+		}
+		return +year[ 1 ] * 10000 + month * 100 + day;
+	}
+
+	// Tri stable ; les événements sans date reconnue restent à la fin, dans leur ordre.
+	function sortByDate( blocks, desc ) {
+		var withKey = blocks.map( function ( b, i ) {
+			return { block: b, key: dateKey( b.attributes.date ), index: i };
+		} );
+		withKey.sort( function ( x, y ) {
+			if ( x.key === null || y.key === null ) {
+				if ( x.key === y.key ) return x.index - y.index;
+				return x.key === null ? 1 : -1;
+			}
+			if ( x.key !== y.key ) return desc ? y.key - x.key : x.key - y.key;
+			return x.index - y.index;
+		} );
+		return {
+			blocks: withKey.map( function ( w ) { return w.block; } ),
+			undated: withKey.filter( function ( w ) { return w.key === null; } ).length
+		};
+	}
+
+	// Exposé pour les tests automatisés.
+	window.ctbEditorUtils = { dateKey: dateKey, sortByDate: sortByDate, safeUrl: safeUrl };
 
 	/* ---------- Helpers ---------- */
 
@@ -156,6 +253,29 @@
 		return el( 'figure', { className: 'ctb-item__media' }, img );
 	}
 
+	function URLField( props ) {
+		var URLInput = be.URLInput;
+		if ( URLInput ) {
+			return el(
+				'div',
+				{ className: 'ctb-url-field' },
+				el( 'p', { className: 'ctb-color-control__label' }, props.label ),
+				el( URLInput, {
+					value: props.value,
+					onChange: props.onChange,
+					__nextHasNoMarginBottom: true
+				} )
+			);
+		}
+		return el( c.TextControl, {
+			label: props.label,
+			type: 'url',
+			value: props.value,
+			onChange: props.onChange,
+			__nextHasNoMarginBottom: true
+		} );
+	}
+
 	function ThemePicker( props ) {
 		return el(
 			'div',
@@ -200,7 +320,9 @@
 			var a = props.attributes;
 			var set = props.setAttributes;
 			var palette = useThemePalette();
-			var insertBlock = useDispatch( 'core/block-editor' ).insertBlock;
+			var editorActions = useDispatch( 'core/block-editor' );
+			var insertBlock = editorActions.insertBlock;
+			var noticeActions = useDispatch( 'core/notices' );
 
 			var blockProps = useBlockProps( {
 				className: timelineClasses( a ),
@@ -219,6 +341,20 @@
 
 			function addItem() {
 				insertBlock( createBlock( 'ctb/timeline-item' ), undefined, props.clientId );
+			}
+
+			function sortEvents( desc ) {
+				var result = sortByDate( children, desc );
+				editorActions.replaceInnerBlocks( props.clientId, result.blocks, false );
+				if ( noticeActions && noticeActions.createNotice ) {
+					noticeActions.createNotice(
+						'success',
+						result.undated
+							? __( 'Events sorted by date. Events without a recognizable date were placed at the end.', TD )
+							: __( 'Events sorted by date.', TD ),
+						{ type: 'snackbar', isDismissible: true }
+					);
+				}
 			}
 
 			/* --- Onglets : un événement visible à la fois dans l'éditeur --- */
@@ -311,6 +447,15 @@
 							onChange: function ( v ) { set( { layout: v } ); },
 							__nextHasNoMarginBottom: true
 						} ),
+						a.layout === 'horizontal'
+							? el( 'div', { style: { marginTop: 16 } }, el( c.ToggleControl, {
+								label: __( 'Show navigation arrows', TD ),
+								help: __( 'Previous / next buttons above the timeline on the site.', TD ),
+								checked: a.showArrows !== false,
+								onChange: function ( v ) { set( { showArrows: v } ); },
+								__nextHasNoMarginBottom: true
+							} ) )
+							: null,
 						a.layout === 'horizontal' || a.layout === 'tabs'
 							? el( 'div', { style: { marginTop: 16 } }, el( c.ToggleControl, {
 								label: __( 'Switch to vertical on mobile', TD ),
@@ -345,6 +490,17 @@
 							onChange: function ( v ) { set( { shadow: v } ); },
 							__nextHasNoMarginBottom: true
 						} )
+					),
+					el(
+						c.PanelBody,
+						{ title: __( 'Sort by date', TD ), initialOpen: false },
+						el( 'p', { className: 'ctb-help', style: { marginTop: 0 } }, __( 'Reorders the events using their date (e.g. 1906, 20 May 1906, 1906-05-20, 20/05/1906). You can undo with Ctrl+Z.', TD ) ),
+						el(
+							'div',
+							{ className: 'ctb-sort-buttons' },
+							el( c.Button, { variant: 'secondary', icon: 'arrow-down-alt', onClick: function () { sortEvents( false ); }, disabled: children.length < 2 }, __( 'Oldest first', TD ) ),
+							el( c.Button, { variant: 'secondary', icon: 'arrow-up-alt', onClick: function () { sortEvents( true ); }, disabled: children.length < 2 }, __( 'Newest first', TD ) )
+						)
 					),
 					el(
 						c.PanelBody,
@@ -409,14 +565,33 @@
 			var blockProps = useBlockProps.save( {
 				className: timelineClasses( a ),
 				style: timelineStyle( a ),
-				'data-ctb-animate': a.animate ? 'true' : undefined
+				'data-ctb-animate': a.animate ? 'true' : undefined,
+				'data-ctb-arrows': a.layout === 'horizontal' && a.showArrows === false ? 'false' : undefined
 			} );
-			var innerProps = useInnerBlocksProps.save( {
-				className: 'ctb-timeline__items',
-				tabIndex: a.layout === 'horizontal' ? 0 : undefined
-			} );
+			// Le défilement horizontal est rendu focalisable par view.js :
+			// « tabindex » est retiré par KSES pour les rôles sans unfiltered_html.
+			var innerProps = useInnerBlocksProps.save( { className: 'ctb-timeline__items' } );
 			return el( 'div', blockProps, el( 'div', innerProps ) );
-		}
+		},
+
+		deprecated: [
+			{
+				// v1.0 – v1.4 : tabindex enregistré dans le contenu (mode horizontal).
+				save: function ( props ) {
+					var a = props.attributes;
+					var blockProps = useBlockProps.save( {
+						className: timelineClasses( a ),
+						style: timelineStyle( a ),
+						'data-ctb-animate': a.animate ? 'true' : undefined
+					} );
+					var innerProps = useInnerBlocksProps.save( {
+						className: 'ctb-timeline__items',
+						tabIndex: a.layout === 'horizontal' ? 0 : undefined
+					} );
+					return el( 'div', blockProps, el( 'div', innerProps ) );
+				}
+			}
+		]
 	} );
 
 	/* ---------- Bloc enfant : Événement ---------- */
@@ -539,6 +714,47 @@
 					),
 					el(
 						c.PanelBody,
+						{ title: __( 'Button / link', TD ), initialOpen: !! a.linkUrl },
+						el( URLField, {
+							label: __( 'Link URL', TD ),
+							value: a.linkUrl || '',
+							onChange: function ( v ) {
+								var next = { linkUrl: v ? String( v ).trim() : undefined };
+								if ( v && ! a.linkText ) {
+									next.linkText = __( 'Read more', TD );
+								}
+								set( next );
+							}
+						} ),
+						a.linkUrl && ! safeUrl( a.linkUrl )
+							? el( c.Notice, { status: 'warning', isDismissible: false },
+								__( 'This type of link is not allowed. Use an address starting with https://, mailto: or tel:.', TD ) )
+							: null,
+						a.linkUrl
+							? el( 'div', { style: { marginTop: 16 } },
+								el( c.TextControl, {
+									label: __( 'Button text', TD ),
+									value: a.linkText,
+									onChange: function ( v ) { set( { linkText: v } ); },
+									__nextHasNoMarginBottom: true
+								} ),
+								el( 'div', { style: { height: 16 } } ),
+								el( c.ToggleControl, {
+									label: __( 'Open in a new tab', TD ),
+									checked: !! a.linkNewTab,
+									onChange: function ( v ) { set( { linkNewTab: v } ); },
+									__nextHasNoMarginBottom: true
+								} ),
+								el( c.Button, {
+									variant: 'link',
+									isDestructive: true,
+									onClick: function () { set( { linkUrl: undefined, linkText: '', linkNewTab: false } ); }
+								}, __( 'Remove button', TD ) )
+							)
+							: el( 'p', { className: 'ctb-help' }, __( 'Adds a "Read more" button to the card, e.g. to a page or a family record.', TD ) )
+					),
+					el(
+						c.PanelBody,
 						{ title: __( 'Image', TD ), initialOpen: false },
 						el(
 							MediaUploadCheck,
@@ -613,7 +829,22 @@
 							value: a.content,
 							onChange: function ( v ) { set( { content: v } ); },
 							placeholder: __( 'Description…', TD )
-						} )
+						} ),
+						a.linkUrl
+							? el(
+								'div',
+								{ className: 'ctb-item__more' },
+								el( RichText, {
+									tagName: 'span',
+									className: 'ctb-item__button',
+									value: a.linkText,
+									onChange: function ( v ) { set( { linkText: v } ); },
+									placeholder: __( 'Button text', TD ),
+									allowedFormats: [],
+									withoutInteractiveFormatting: true
+								} )
+							)
+							: null
 					)
 				)
 			);
@@ -637,8 +868,23 @@
 					{ className: 'ctb-item__card' },
 					a.mediaUrl ? saveMedia( a ) : null,
 					a.title ? el( R, { tagName: 'h3', className: 'ctb-item__title', value: a.title } ) : null,
-					a.content ? el( R, { tagName: 'div', className: 'ctb-item__content', value: a.content } ) : null
-				)
+					a.content ? el( R, { tagName: 'div', className: 'ctb-item__content', value: a.content } ) : null,
+					// Ajouté seulement si un lien est défini : contenu des versions précédentes inchangé.
+					a.linkUrl && safeUrl( a.linkUrl )
+						? el(
+							'div',
+							{ className: 'ctb-item__more' },
+							el( R, {
+								tagName: 'a',
+								className: 'ctb-item__button',
+								href: safeUrl( a.linkUrl ),
+								target: a.linkNewTab ? '_blank' : undefined,
+								rel: a.linkNewTab ? 'noopener' : undefined,
+								value: a.linkText || a.linkUrl
+							} )
+						)
+						: null
+					)
 			);
 		}
 	} );

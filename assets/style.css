@@ -907,3 +907,149 @@
 		transition: none;
 	}
 }
+
+/* =========================================================
+   Bouton « En savoir plus » par événement
+   ========================================================= */
+
+.ctb-item__more {
+	margin-top: 1rem;
+}
+
+.ctb-timeline .ctb-item__button {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45em;
+	padding: 0.55em 1.15em;
+	border: 0;
+	border-radius: max(4px, calc(var(--ctb-radius) - 2px));
+	background: var(--ctb-accent);
+	color: #fff;
+	font-size: 0.9em;
+	font-weight: 600;
+	line-height: 1.2;
+	text-decoration: none;
+	transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.ctb-timeline .ctb-item__button::after {
+	content: "\2192";
+	transition: transform 0.2s ease;
+}
+
+.ctb-timeline a.ctb-item__button:hover,
+.ctb-timeline a.ctb-item__button:focus-visible {
+	color: #fff;
+	filter: brightness(1.08);
+	text-decoration: none;
+}
+
+.ctb-timeline a.ctb-item__button:hover::after {
+	transform: translateX(3px);
+}
+
+.ctb-timeline a.ctb-item__button:focus-visible {
+	outline: 2px solid var(--ctb-accent);
+	outline-offset: 3px;
+}
+
+.ctb-theme-minimal .ctb-item__button,
+.ctb-theme-minimal a.ctb-item__button:hover,
+.ctb-theme-minimal a.ctb-item__button:focus-visible {
+	padding: 0;
+	background: none;
+	color: var(--ctb-accent);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.ctb-theme-classic .ctb-item__button {
+	border-radius: 2px;
+}
+
+.ctb-theme-elegant .ctb-item__button,
+.ctb-theme-elegant a.ctb-item__button:hover,
+.ctb-theme-elegant a.ctb-item__button:focus-visible {
+	border: 1px solid var(--ctb-accent);
+	border-radius: 2px;
+	background: transparent;
+	color: var(--ctb-accent);
+	font-family: Georgia, "Times New Roman", serif;
+	font-weight: 400;
+}
+
+.ctb-theme-bold .ctb-item__button,
+.ctb-theme-bold a.ctb-item__button:hover,
+.ctb-theme-bold a.ctb-item__button:focus-visible {
+	background: #fff;
+	color: var(--ctb-accent);
+}
+
+.ctb-theme-bold a.ctb-item__button:focus-visible {
+	outline-color: #fff;
+}
+
+/* =========================================================
+   Flèches de navigation (mise en page horizontale)
+   ========================================================= */
+
+.ctb-hnav {
+	display: flex;
+	justify-content: flex-end;
+	gap: 0.5rem;
+	margin-bottom: 0.75rem;
+}
+
+.ctb-hnav[hidden] {
+	display: none;
+}
+
+.ctb-timeline .ctb-hnav__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	margin: 0;
+	padding: 0 0 0.15em;
+	border: 2px solid var(--ctb-dot-color);
+	border-radius: 50%;
+	background: var(--ctb-tab-dot-bg, #fff);
+	color: var(--ctb-dot-color);
+	font: inherit;
+	font-size: 1.6rem;
+	line-height: 1;
+	cursor: pointer;
+	box-shadow: none;
+	transition: background 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+.ctb-timeline .ctb-hnav__btn:hover:not(:disabled),
+.ctb-timeline .ctb-hnav__btn:focus-visible {
+	background: var(--ctb-dot-color);
+	color: #fff;
+}
+
+.ctb-timeline .ctb-hnav__btn:focus-visible {
+	outline: 2px solid var(--ctb-dot-color);
+	outline-offset: 2px;
+}
+
+.ctb-timeline .ctb-hnav__btn:disabled {
+	opacity: 0.35;
+	cursor: default;
+}
+
+@media (max-width: 781px) {
+	.ctb-timeline.ctb-mobile-vertical .ctb-hnav {
+		display: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ctb-timeline .ctb-item__button,
+	.ctb-timeline .ctb-item__button::after,
+	.ctb-timeline .ctb-hnav__btn {
+		transition: none;
+	}
+}

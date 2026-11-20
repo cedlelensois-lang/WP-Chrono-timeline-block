@@ -57,6 +57,17 @@
 		},
 		"accentColor": {
 			"type": "string"
+		},
+		"linkUrl": {
+			"type": "string"
+		},
+		"linkText": {
+			"type": "string",
+			"default": ""
+		},
+		"linkNewTab": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"supports": {
