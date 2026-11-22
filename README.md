@@ -102,6 +102,10 @@ Deleting the plugin from **Plugins** removes its cached data. Timelines already 
 
 ## Changelog
 
+### Unreleased
+- Author name set to Cédric Malvache
+
+
 ### 1.5.0
 - New: "Read more" button per event (link, custom text, new tab option)
 - New: navigation arrows for horizontal timelines, keyboard-scrollable area
@@ -146,4 +150,4 @@ Deleting the plugin from **Plugins** removes its cached data. Timelines already 
 
 ## License
 
-GPL-2.0-or-later. See [LICENSE](LICENSE).
+© Cédric Malvache — GPL-2.0-or-later. See [LICENSE](LICENSE).

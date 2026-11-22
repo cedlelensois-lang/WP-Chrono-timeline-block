@@ -154,7 +154,7 @@ class CTB_Updater {
 			'name'          => 'WP Chrono timeline block',
 			'slug'          => $this->slug,
 			'version'       => $version,
-			'author'        => 'Cédric',
+			'author'        => 'Cédric Malvache',
 			'homepage'      => 'https://github.com/' . self::REPO,
 			'download_link' => $release ? $release['package'] : '',
 			'requires'      => '6.3',
